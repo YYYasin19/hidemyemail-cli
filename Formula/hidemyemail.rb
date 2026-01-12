@@ -2,15 +2,15 @@ class Hidemyemail < Formula
   include Language::Python::Virtualenv
 
   desc "CLI tool for managing Apple Hide My Email addresses with Touch ID"
-  homepage "https://github.com/yourusername/hidemyemail-cli"
+  homepage "https://github.com/YYYasin19/hidemyemail-cli"
   license "MIT"
 
   # For development: install from local path or git
   # For release: replace with actual GitHub release URL
-  head "https://github.com/yourusername/hidemyemail-cli.git", branch: "main"
+  head "https://github.com/YYYasin19/hidemyemail-cli.git", branch: "main"
 
   # Uncomment and update for stable releases:
-  # url "https://github.com/yourusername/hidemyemail-cli/archive/refs/tags/v0.1.0.tar.gz"
+  # url "https://github.com/YYYasin19/hidemyemail-cli/archive/refs/tags/v0.1.0.tar.gz"
   # sha256 "YOUR_SHA256_HERE"
   # version "0.1.0"
 
