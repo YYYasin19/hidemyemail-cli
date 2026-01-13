@@ -11,7 +11,7 @@ from hidemyemail import __version__
 from hidemyemail.commands import auth, emails
 
 app = typer.Typer(
-    name="hme",
+    name="hide-my-email",
     help="Hide My Email CLI - Manage your Apple Hide My Email aliases",
     no_args_is_help=True,
 )
@@ -21,7 +21,7 @@ console = Console()
 
 def version_callback(value: bool) -> None:
     if value:
-        console.print(f"hme version {__version__}")
+        console.print(f"hide-my-email version {__version__}")
         raise typer.Exit()
 
 

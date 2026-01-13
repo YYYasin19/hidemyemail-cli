@@ -2,7 +2,7 @@
 
 
 class HideMyEmailError(Exception):
-    """Base exception for all HME errors."""
+    """Base exception for all Hide My Email errors."""
 
     pass
 

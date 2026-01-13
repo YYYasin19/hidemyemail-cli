@@ -1,6 +1,6 @@
 [project]
 name = "hidemyemail-cli"
-version = "0.1.0"
+version = "0.1.4"
 description = "CLI tool for managing Apple Hide My Email addresses with Touch ID authentication"
 readme = "README.md"
 requires-python = ">=3.13"
@@ -8,14 +8,15 @@ dependencies = [
     "typer>=0.12.0",
     "rich>=13.0.0",
     "shellingham>=1.5.0",
-    "pyicloud @ git+https://github.com/timlaing/pyicloud.git",
+    # pinned for safety
+    "pyicloud @ git+https://github.com/timlaing/pyicloud.git@673c1aa30572bac2849be099b5d5d10cf78c1613",
     "pyobjc-framework-LocalAuthentication>=10.0",
     "pyobjc-framework-Security>=10.0",
     "pyobjc-core>=10.0",
 ]
 
 [project.scripts]
-hme = "hidemyemail.cli:app"
+hide-my-email = "hidemyemail.cli:app"
 
 [build-system]
 requires = ["hatchling"]

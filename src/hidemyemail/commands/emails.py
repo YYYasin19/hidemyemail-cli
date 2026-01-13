@@ -27,7 +27,7 @@ def get_service() -> HideMyEmailService:
     username = get_default_username()
     if username is None:
         console.print("[red]No account configured.[/red]")
-        console.print("Run 'hme setup' first to configure your Apple ID.")
+        console.print("Run 'hide-my-email setup' first to configure your Apple ID.")
         raise typer.Exit(1)
 
     client = ICloudClient()
@@ -39,7 +39,7 @@ def get_service() -> HideMyEmailService:
         client.authenticate(username, twofa_callback=get_2fa_code)
     except CredentialsNotFoundError:
         console.print("[red]No credentials found.[/red]")
-        console.print("Run 'hme setup' to configure your Apple ID.")
+        console.print("Run 'hide-my-email setup' to configure your Apple ID.")
         raise typer.Exit(1)
     except AuthenticationError as e:
         console.print(f"[red]Authentication failed:[/red] {e}")
@@ -90,12 +90,16 @@ def list_emails(
     console.print(table)
 
     if total > limit:
-        console.print(f"\n[dim]Showing {limit} of {total} aliases. Use --limit to see more.[/dim]")
+        console.print(
+            f"\n[dim]Showing {limit} of {total} aliases. Use --limit to see more.[/dim]"
+        )
 
 
 @app.command()
 def search(
-    query: Annotated[str, typer.Argument(help="Search term (matches label, email, or note)")],
+    query: Annotated[
+        str, typer.Argument(help="Search term (matches label, email, or note)")
+    ],
 ) -> None:
     """Search for aliases by label, email, or note."""
     with console.status(f"Searching for '{query}'..."):
@@ -122,8 +126,12 @@ def search(
 
 @app.command()
 def create(
-    label: Annotated[str, typer.Argument(help="Label for the new alias (e.g., 'Netflix')")],
-    note: Annotated[str | None, typer.Option("--note", "-n", help="Optional note")] = None,
+    label: Annotated[
+        str, typer.Argument(help="Label for the new alias (e.g., 'Netflix')")
+    ],
+    note: Annotated[
+        str | None, typer.Option("--note", "-n", help="Optional note")
+    ] = None,
 ) -> None:
     """Create a new Hide My Email alias."""
     with console.status("Generating new alias..."):
@@ -134,14 +142,16 @@ def create(
             console.print(f"[red]Failed to create alias:[/red] {e}")
             raise typer.Exit(1)
 
-    console.print(f"[green]✓[/green] Created new alias:")
+    console.print("[green]✓[/green] Created new alias:")
     console.print(f"  Email: [cyan]{alias.email}[/cyan]")
     console.print(f"  Label: [green]{alias.label}[/green]")
     if alias.note:
         console.print(f"  Note:  {alias.note}")
 
     # Copy to clipboard hint
-    console.print(f"\n[dim]Tip: Copy the email with: echo '{alias.email}' | pbcopy[/dim]")
+    console.print(
+        f"\n[dim]Tip: Copy the email with: echo '{alias.email}' | pbcopy[/dim]"
+    )
 
 
 @app.command()
@@ -212,7 +222,9 @@ def delete(
         raise typer.Exit(1)
 
     if not force:
-        console.print(f"[bold red]Warning:[/bold red] This will permanently delete the alias.")
+        console.print(
+            "[bold red]Warning:[/bold red] This will permanently delete the alias."
+        )
         console.print(f"  Email: [cyan]{alias.email}[/cyan]")
         console.print(f"  Label: {alias.label}")
         if not Confirm.ask("Are you sure?"):
@@ -229,7 +241,9 @@ def delete(
 @app.command()
 def update(
     email_or_id: Annotated[str, typer.Argument(help="Email address or anonymous ID")],
-    label: Annotated[str | None, typer.Option("--label", "-l", help="New label")] = None,
+    label: Annotated[
+        str | None, typer.Option("--label", "-l", help="New label")
+    ] = None,
     note: Annotated[str | None, typer.Option("--note", "-n", help="New note")] = None,
 ) -> None:
     """Update an alias label or note."""

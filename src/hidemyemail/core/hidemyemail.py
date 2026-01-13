@@ -107,7 +107,7 @@ class HideMyEmailService:
         try:
             # Generate a new random email
             generated = self.client.hidemyemail.generate()
-            email = generated.get("hme", "")
+            email = generated or ""
 
             if not email:
                 raise AliasOperationError("Failed to generate email address")
@@ -122,7 +122,9 @@ class HideMyEmailService:
             if not result:
                 raise AliasOperationError("Failed to reserve email alias")
 
-            return EmailAlias.from_api(result)
+            # reserve() returns {"hme": {...alias data...}}, extract the nested data
+            alias_data = result.get("hme", result)
+            return EmailAlias.from_api(alias_data)
         except Exception as e:
             if isinstance(e, AliasOperationError):
                 raise

@@ -30,7 +30,9 @@ class ICloudClient:
     def api(self) -> PyiCloudService:
         """Get authenticated PyiCloud API instance."""
         if self._api is None:
-            raise AuthenticationError("Not authenticated. Run 'hme setup' first.")
+            raise AuthenticationError(
+                "Not authenticated. Run 'hide-my-email setup' first."
+            )
         return self._api
 
     @property
@@ -72,7 +74,7 @@ class ICloudClient:
             )
             if password is None:
                 raise CredentialsNotFoundError(
-                    "No stored credentials found. Run 'hme setup' first."
+                    "No stored credentials found. Run 'hide-my-email setup' first."
                 )
 
         # Ensure cookie directory exists

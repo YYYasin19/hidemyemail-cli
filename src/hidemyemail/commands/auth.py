@@ -8,7 +8,11 @@ from rich.prompt import Confirm, Prompt
 
 from hidemyemail.auth.keychain import KeychainManager
 from hidemyemail.auth.touchid import is_available as touchid_available
-from hidemyemail.config import clear_default_username, get_default_username, set_default_username
+from hidemyemail.config import (
+    clear_default_username,
+    get_default_username,
+    set_default_username,
+)
 from hidemyemail.core.exceptions import AuthenticationError, TwoFactorRequiredError
 from hidemyemail.core.icloud_client import ICloudClient
 
@@ -49,7 +53,9 @@ def setup() -> None:
         username, password, require_biometry=touchid_available()
     ):
         error_msg = keychain.last_error or "Unknown error"
-        console.print(f"[red]Failed to store credentials in Keychain:[/red] {error_msg}")
+        console.print(
+            f"[red]Failed to store credentials in Keychain:[/red] {error_msg}"
+        )
         raise typer.Exit(1)
 
     console.print("[green]✓[/green] Credentials stored securely")
@@ -69,13 +75,13 @@ def setup() -> None:
         client.authenticate(username, password, twofa_callback=get_2fa_code)
         console.print("[green]✓[/green] Successfully authenticated with iCloud")
         console.print(
-            f"\n[bold green]Setup complete![/bold green] Use 'hme list' to see your email aliases."
+            "\n[bold green]Setup complete![/bold green] Use 'hide-my-email list' to see your email aliases."
         )
     except TwoFactorRequiredError:
         # 2FA was required and handled
         console.print("[green]✓[/green] 2FA verified and session trusted")
         console.print(
-            f"\n[bold green]Setup complete![/bold green] Use 'hme list' to see your email aliases."
+            "\n[bold green]Setup complete![/bold green] Use 'hide-my-email list' to see your email aliases."
         )
     except AuthenticationError as e:
         console.print(f"[red]Authentication failed:[/red] {e}")
@@ -88,7 +94,10 @@ def setup() -> None:
 @app.command()
 def logout(
     username: str | None = typer.Option(
-        None, "--username", "-u", help="Apple ID to remove (defaults to current account)"
+        None,
+        "--username",
+        "-u",
+        help="Apple ID to remove (defaults to current account)",
     ),
 ) -> None:
     """Remove stored credentials and session data."""
@@ -112,12 +121,12 @@ def logout(
 
     # Clear session
     client.clear_session(username)
-    console.print(f"[green]✓[/green] Cleared session data")
+    console.print("[green]✓[/green] Cleared session data")
 
     # Clear default username if it matches
     if get_default_username() == username:
         clear_default_username()
-        console.print(f"[green]✓[/green] Cleared default account")
+        console.print("[green]✓[/green] Cleared default account")
 
 
 @app.command()
@@ -127,7 +136,7 @@ def status() -> None:
 
     if username is None:
         console.print("[yellow]No account configured.[/yellow]")
-        console.print("Run 'hme setup' to configure your Apple ID.")
+        console.print("Run 'hide-my-email setup' to configure your Apple ID.")
         return
 
     console.print(f"Account: [cyan]{username}[/cyan]")
